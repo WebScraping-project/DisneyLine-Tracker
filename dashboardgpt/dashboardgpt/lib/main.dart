@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -221,9 +222,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle appBarTextStyle = GoogleFonts.acme();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Disneyline Tracker'),
+        titleTextStyle: GoogleFonts.acme(),
       ),
       body: Center(
         child: Container(
@@ -292,7 +295,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 .withOpacity(0.2),
                             spreadRadius: 0.1,
                             blurRadius: 0,
-                            offset: Offset(0, 0), // décalage image texte
+                            offset: const Offset(0, 0), // décalage image texte
                           ),
                         ],
                       ),
