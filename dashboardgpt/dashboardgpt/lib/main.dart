@@ -222,59 +222,51 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle appBarTextStyle = GoogleFonts.acme();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Disneyline Tracker'),
-        titleTextStyle: GoogleFonts.acme(),
+        titleTextStyle: GoogleFonts.montserrat(
+          fontSize: 50.0, // Taille du texte
+          fontWeight: FontWeight.bold, // Gras
+          color: Colors.blue, // Couleur du texte
+        ),
       ),
       body: Center(
         child: Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 600.0, vertical: 200.0),
+          padding: const EdgeInsets.all(200.0),
           child: Column(
             children: [
-              DropdownButton<String>(
-                value: selectedView,
-                onChanged: _onViewChanged,
-                items: [
-                  'Toutes les attractions',
-                  'Space',
-                  'Splash',
-                  'Big Thunder',
-                  'Haunted Mansion',
-                  'Pirates',
-                  'It\'s a Small World',
-                  'Rock \'n\' Roller Coaster',
-                  'Test Track',
-                  'Expedition Everest',
-                  'Buzz Lightyear Astro Blasters',
-                  'Dumbo the Flying Elephant',
-                  'Matterhorn Bobsleds',
-                  'Tower of Terror',
-                  'Indiana Jones Adventure',
-                  'Seven Dwarfs Mine Train',
-                  'The Twilight Zone Tower of Terror',
-                  'The Little Mermaid: Ariel\'s Undersea Adventure',
-                  'Soarin\' Around the World',
-                  'Space Mountain: Mission 2',
-                  'Slinky Dog Dash',
-                  'Ratatouille: The Adventure',
-                  'Big Hero 6: The Ride',
-                  'Frozen Ever After',
-                  'Guardians of the Galaxy: Mission Breakout!',
-                  'Millennium Falcon: Smugglers Run',
-                  'Peter Pan\'s Flight',
-                  'Star Tours – The Adventures Continue',
-                  'The Great Movie Ride',
-                  'Walt Disney\'s Enchanted Tiki Room',
-                  'Toy Story Midway Mania!'
-                ].map((String view) {
-                  return DropdownMenuItem<String>(
-                    value: view,
-                    child: Text(view),
-                  );
-                }).toList(),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  gradient: const LinearGradient(
+                    colors: [Colors.blue, Colors.green],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
+                child: DropdownButton<String>(
+                  value: selectedView,
+                  onChanged: _onViewChanged,
+                  items: [
+                    'Toutes les attractions',
+                    'Space',
+                    'Splash',
+                    'Big Thunder',
+                    // ... (ajoutez le reste des éléments ici)
+                    'Toy Story Midway Mania!',
+                  ].map((String view) {
+                    return DropdownMenuItem<String>(
+                      value: view,
+                      child: Text(
+                        view,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
               const SizedBox(height: 16.0),
               Expanded(
@@ -283,26 +275,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (context, index) {
                     var attraction = filteredAttractions[index];
                     return Container(
-                      margin: const EdgeInsets.only(
-                          bottom: 16.0), //espace entre chaque attraction
+                      margin: const EdgeInsets.only(bottom: 16.0),
                       decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(20.0), // Arrondi bandes
+                        borderRadius: BorderRadius.circular(20.0),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color.fromARGB(255, 158, 158,
-                                    158) // Couleur des bandes attractions
+                            color: const Color.fromARGB(255, 158, 158, 158)
                                 .withOpacity(0.2),
                             spreadRadius: 0.1,
                             blurRadius: 0,
-                            offset: const Offset(0, 0), // décalage image texte
+                            offset: const Offset(0, 0),
                           ),
                         ],
                       ),
                       child: ListTile(
                         leading: ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(10.0), // Arrondi des images
+                          borderRadius: BorderRadius.circular(10.0),
                           child: Image.asset(
                             attraction.photoUrl,
                             width: 56,
