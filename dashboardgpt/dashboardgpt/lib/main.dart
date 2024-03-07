@@ -1,7 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class Attraction {
@@ -19,18 +22,22 @@ class Attraction {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -39,152 +46,152 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Attraction> attractions = [
     Attraction(
         name: 'Space Mountain',
-        photoUrl: 'assets/space_mountain.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 30,
         isAvailable: true),
     Attraction(
         name: 'Splash Mountain',
-        photoUrl: 'assets/splash_mountain.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 45,
         isAvailable: false),
     Attraction(
         name: 'Big Thunder Mountain',
-        photoUrl: 'assets/big_thunder_mountain.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 20,
         isAvailable: true),
     Attraction(
         name: 'Haunted Mansion',
-        photoUrl: 'assets/haunted_mansion.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 15,
         isAvailable: true),
     Attraction(
         name: 'Pirates of the Caribbean',
-        photoUrl: 'assets/pirates.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 40,
         isAvailable: true),
     Attraction(
         name: 'It\'s a Small World',
-        photoUrl: 'assets/small_world.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 10,
         isAvailable: false),
     Attraction(
         name: 'Rock \'n\' Roller Coaster',
-        photoUrl: 'assets/rock_n_roller_coaster.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 25,
         isAvailable: true),
     Attraction(
         name: 'Test Track',
-        photoUrl: 'assets/test_track.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 35,
         isAvailable: false),
     Attraction(
         name: 'Expedition Everest',
-        photoUrl: 'assets/expedition_everest.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 50,
         isAvailable: true),
     Attraction(
         name: 'Buzz Lightyear Astro Blasters',
-        photoUrl: 'assets/buzz_lightyear.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 18,
         isAvailable: true),
     Attraction(
         name: 'Dumbo the Flying Elephant',
-        photoUrl: 'assets/dumbo.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 12,
         isAvailable: true),
     Attraction(
         name: 'Matterhorn Bobsleds',
-        photoUrl: 'assets/matterhorn.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 28,
         isAvailable: false),
     Attraction(
         name: 'Tower of Terror',
-        photoUrl: 'assets/tower_of_terror.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 22,
         isAvailable: true),
     Attraction(
         name: 'Indiana Jones Adventure',
-        photoUrl: 'assets/indiana_jones.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 38,
         isAvailable: true),
     Attraction(
         name: 'Seven Dwarfs Mine Train',
-        photoUrl: 'assets/seven_dwarfs.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 32,
         isAvailable: true),
     Attraction(
         name: 'The Twilight Zone Tower of Terror',
-        photoUrl: 'assets/twilight_zone_tower.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 40,
         isAvailable: false),
     Attraction(
         name: 'The Little Mermaid: Ariel\'s Undersea Adventure',
-        photoUrl: 'assets/little_mermaid.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 15,
         isAvailable: true),
     Attraction(
         name: 'Soarin\' Around the World',
-        photoUrl: 'assets/soarin.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 30,
         isAvailable: true),
     Attraction(
         name: 'Space Mountain: Mission 2',
-        photoUrl: 'assets/space_mountain_mission_2.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 55,
         isAvailable: true),
     Attraction(
         name: 'Slinky Dog Dash',
-        photoUrl: 'assets/slinky_dog_dash.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 25,
         isAvailable: true),
     Attraction(
         name: 'Ratatouille: The Adventure',
-        photoUrl: 'assets/ratatouille.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 18,
         isAvailable: false),
     Attraction(
         name: 'Big Hero 6: The Ride',
-        photoUrl: 'assets/big_hero_6.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 20,
         isAvailable: true),
     Attraction(
         name: 'Frozen Ever After',
-        photoUrl: 'assets/frozen_ever_after.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 30,
         isAvailable: true),
     Attraction(
         name: 'Guardians of the Galaxy: Mission Breakout!',
-        photoUrl: 'assets/guardians_of_the_galaxy.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 42,
         isAvailable: true),
     Attraction(
         name: 'Millennium Falcon: Smugglers Run',
-        photoUrl: 'assets/millennium_falcon.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 48,
         isAvailable: false),
     Attraction(
         name: 'Peter Pan\'s Flight',
-        photoUrl: 'assets/peter_pan.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 15,
         isAvailable: true),
     Attraction(
         name: 'Star Tours – The Adventures Continue',
-        photoUrl: 'assets/star_tours.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 28,
         isAvailable: true),
     Attraction(
         name: 'The Great Movie Ride',
-        photoUrl: 'assets/great_movie_ride.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 18,
         isAvailable: true),
     Attraction(
         name: 'Walt Disney\'s Enchanted Tiki Room',
-        photoUrl: 'assets/enchanted_tiki_room.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 10,
         isAvailable: true),
     Attraction(
         name: 'Toy Story Midway Mania!',
-        photoUrl: 'assets/toy_story_mania.jpg',
+        photoUrl: 'assets/Dumbo.jpg',
         waitTime: 25,
         isAvailable: true),
     // Ajoutez d'autres attractions ici
@@ -217,77 +224,92 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Disneyline Tracker'),
+        title: const Text('Disneyline Tracker'),
+        titleTextStyle: GoogleFonts.montserrat(
+          fontSize: 50.0, // Taille du texte
+          fontWeight: FontWeight.bold, // Gras
+          color: Colors.blue, // Couleur du texte
+        ),
       ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(200.0),
           child: Column(
             children: [
-              DropdownButton<String>(
-                value: selectedView,
-                onChanged: _onViewChanged,
-                items: [
-                  'Toutes les attractions',
-                  'Space',
-                  'Splash',
-                  'Big Thunder',
-                  'Haunted Mansion',
-                  'Pirates',
-                  'It\'s a Small World',
-                  'Rock \'n\' Roller Coaster',
-                  'Test Track',
-                  'Expedition Everest',
-                  'Buzz Lightyear Astro Blasters',
-                  'Dumbo the Flying Elephant',
-                  'Matterhorn Bobsleds',
-                  'Tower of Terror',
-                  'Indiana Jones Adventure',
-                  'Seven Dwarfs Mine Train',
-                  'The Twilight Zone Tower of Terror',
-                  'The Little Mermaid: Ariel\'s Undersea Adventure',
-                  'Soarin\' Around the World',
-                  'Space Mountain: Mission 2',
-                  'Slinky Dog Dash',
-                  'Ratatouille: The Adventure',
-                  'Big Hero 6: The Ride',
-                  'Frozen Ever After',
-                  'Guardians of the Galaxy: Mission Breakout!',
-                  'Millennium Falcon: Smugglers Run',
-                  'Peter Pan\'s Flight',
-                  'Star Tours – The Adventures Continue',
-                  'The Great Movie Ride',
-                  'Walt Disney\'s Enchanted Tiki Room',
-                  'Toy Story Midway Mania!'
-                ].map((String view) {
-                  return DropdownMenuItem<String>(
-                    value: view,
-                    child: Text(view),
-                  );
-                }).toList(),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  gradient: const LinearGradient(
+                    colors: [Colors.blue, Colors.green],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
+                child: DropdownButton<String>(
+                  value: selectedView,
+                  onChanged: _onViewChanged,
+                  items: [
+                    'Toutes les attractions',
+                    'Space',
+                    'Splash',
+                    'Big Thunder',
+                    // ... (ajoutez le reste des éléments ici)
+                    'Toy Story Midway Mania!',
+                  ].map((String view) {
+                    return DropdownMenuItem<String>(
+                      value: view,
+                      child: Text(
+                        view,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Expanded(
                 child: ListView.builder(
                   itemCount: filteredAttractions.length,
                   itemBuilder: (context, index) {
                     var attraction = filteredAttractions[index];
-                    return ListTile(
-                      leading: Image.asset(
-                        attraction.photoUrl,
-                        width: 56,
-                        height: 56,
-                        fit: BoxFit.cover,
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromARGB(255, 158, 158, 158)
+                                .withOpacity(0.2),
+                            spreadRadius: 0.1,
+                            blurRadius: 0,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
                       ),
-                      title: Text(attraction.name),
-                      subtitle: Text(
-                          'Temps d\'attente: ${attraction.waitTime} minutes'),
-                      trailing: Icon(
-                        attraction.isAvailable
-                            ? Icons.check_circle
-                            : Icons.cancel,
-                        color:
-                            attraction.isAvailable ? Colors.green : Colors.red,
+                      child: ListTile(
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image.asset(
+                            attraction.photoUrl,
+                            width: 56,
+                            height: 56,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        title: Text(attraction.name),
+                        subtitle: Text(
+                          'Temps d\'attente: ${attraction.waitTime} minutes',
+                        ),
+                        trailing: Icon(
+                          attraction.isAvailable
+                              ? Icons.check_circle
+                              : Icons.cancel,
+                          color: attraction.isAvailable
+                              ? Colors.green
+                              : Colors.red,
+                        ),
                       ),
                     );
                   },
