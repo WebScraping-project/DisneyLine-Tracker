@@ -73,17 +73,18 @@ class _MyHomePageState extends State<MyHomePage> {
       if (view == 'Disneyland') {
       selectedView = view ?? 'Disneyland';
       if (view == 'Disneyland') {
-      selectedView = view ?? 'Disneyland';
-      if (view == 'Disneyland') {
-        filteredAttractions = List.from(attractions);
-      } else {
-        filteredAttractions = attractions
-            .where((attraction) => attraction.secteur == view)
-            .toList();
-      }
+        selectedView = view ?? 'Disneyland';
+        if (view == 'Disneyland') {
+          filteredAttractions = List.from(attractions);
+        } else {
+          filteredAttractions = attractions
+              .where((attraction) => attraction.secteur == view)
+              .toList();
+        }
 
-      // Mettre à jour le top 3 des attractions lors du changement de vue
-      _updateTopAttractions();
+        // Mettre à jour le top 3 des attractions lors du changement de vue
+        _updateTopAttractions();
+      }
     });
   }
 
