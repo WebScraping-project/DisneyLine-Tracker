@@ -7,13 +7,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        cardColor: Colors.white,
       ),
       home: const MyHomePage(),
     );
@@ -21,10 +22,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({Key? key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -146,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
-            fontSize: 15.0,
+            fontSize: 18.0,
           ),
         ),
       ),
@@ -243,42 +243,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                     return Container(
                                       margin:
                                           const EdgeInsets.only(bottom: 16.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: const Color.fromARGB(
-                                                    255, 158, 158, 158)
-                                                .withOpacity(0.2),
-                                            spreadRadius: 0.1,
-                                            blurRadius: 0,
-                                            offset: const Offset(0, 0),
-                                          ),
-                                        ],
-                                      ),
-                                      child: ListTile(
-                                        leading: ClipRRect(
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          child: Image.asset(
-                                            attraction.photoUrl,
-                                            width: 56,
-                                            height: 56,
-                                            fit: BoxFit.cover,
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        elevation: 5,
+                                        child: ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 16.0,
                                           ),
-                                        ),
-                                        title: Text(attraction.name),
-                                        subtitle: Text(
-                                          'Temps d\'attente: ${attraction.waitTime} minutes',
-                                        ),
-                                        trailing: Icon(
-                                          attraction.isAvailable
-                                              ? Icons.check_circle
-                                              : Icons.cancel,
-                                          color: attraction.isAvailable
-                                              ? Colors.green
-                                              : Colors.red,
+                                          leading: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            child: Image.asset(
+                                              attraction.photoUrl,
+                                              width: 56,
+                                              height: 56,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          title: Text(attraction.name),
+                                          subtitle: Text(
+                                            'Temps d\'attente: ${attraction.waitTime} minutes',
+                                          ),
+                                          trailing: Icon(
+                                            attraction.isAvailable
+                                                ? Icons.check_circle
+                                                : Icons.cancel,
+                                            color: attraction.isAvailable
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -293,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           // Partie droite avec le top 3 des attractions et les informations sur les attractions
-          Container(
+          SizedBox(
             width: 400.0, // Ajustez la largeur selon vos besoins
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
