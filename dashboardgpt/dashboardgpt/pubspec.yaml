@@ -63,9 +63,47 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/Dumbo.jpg
 
-    - assets/donnees_api.json
+  # photos attractions parc DisneyLand
+    - assets/Dumbo.jpg
+    - assets/IndianaJones.jpg
+    - assets/AdventureIsle.jpg
+    - assets/AliceLabyrinth.jpg
+    - assets/Autopia.jpg
+    - assets/BlancheNeige.jpg
+    - assets/CabaneRobinson.jpg
+    - assets/PassageAladin.jpg
+    - assets/PirateGalleon.jpg
+    - assets/PirateCaribbean.jpg
+    - assets/PiratesBeach.jpg
+    - assets/BuzzLightyear.jpg
+    - assets/DisneyRailroad.jpg
+    - assets/Nautilus.jpg
+    - assets/MickeyPhilharMagic.jpg
+    - assets/Orbitron.jpg
+    - assets/StarTours.jpg
+    - assets/HyperspaceMountain.jpg
+    - assets/Starport.jpg
+    - assets/ItsaSmallWorld.jpg
+    - assets/CaseyJr.jpg
+    - assets/TaniereDragon.jpg
+    - assets/CarrouselLancelot.jpg
+    - assets/PaysContesFees.jpg
+    - assets/Pinocchio.jpg
+    - assets/TeaCups.jpg
+    - assets/RencontreMickey.jpg
+    - assets/PeterPan.jpg
+    - assets/PavillonPrincesses.jpg
+    - assets/BigThunderMountain.jpg
+    - assets/FrontierlandPlayground.jpg
+    - assets/RiverRogue.jpg
+    - assets/RustlerRoundup.jpg
+    - assets/PhantomManor.jpg
+    - assets/MainStreetVehicles.jpg
+
+# json données api
+    - assets/disneyland.json
+    - assets/disney_studios.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

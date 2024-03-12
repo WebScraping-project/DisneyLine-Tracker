@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'liste_attractions.dart';
 import 'attraction.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onViewChanged(String? view) {
     setState(() {
+      selectedView = view ?? 'Disneyland';
+      if (view == 'Disneyland') {
       selectedView = view ?? 'Disneyland';
       if (view == 'Disneyland') {
         filteredAttractions = List.from(attractions);
@@ -164,13 +167,13 @@ class _MyHomePageState extends State<MyHomePage> {
               colors: [Colors.blue, Colors.green],
             ).createShader(bounds);
           },
-          child: const Center(
+          child: Center(
             child: Text(
               'Disneyline Tracker',
-              style: TextStyle(
-                fontSize: 30.0,
+              style: GoogleFonts.dancingScript(
+                fontSize: 50.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.white, // Couleur du texte
               ),
             ),
           ),
