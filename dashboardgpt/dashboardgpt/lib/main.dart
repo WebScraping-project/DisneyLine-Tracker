@@ -34,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
   late List<Attraction> attractions;
   List<Attraction> filteredAttractions = [];
   List<Attraction> topAttractions = [];
-  List<Attraction> topAttractions = [];
   String selectedView = 'Disneyland';
 
   @override
@@ -50,7 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // Mettre à jour le top 3 des attractions
     _updateTopAttractions();
 
-
     // Mettre à jour le top 3 des attractions
     _updateTopAttractions();
 
@@ -62,28 +60,24 @@ class _MyHomePageState extends State<MyHomePage> {
     topAttractions = attractions.take(3).toList();
   }
 
-  void _updateTopAttractions() {
-    attractions.sort((a, b) => b.waitTime.compareTo(a.waitTime));
-    topAttractions = attractions.take(3).toList();
-  }
-
   void _onViewChanged(String? view) {
     setState(() {
       selectedView = view ?? 'Disneyland';
       if (view == 'Disneyland') {
-      selectedView = view ?? 'Disneyland';
-      if (view == 'Disneyland') {
         selectedView = view ?? 'Disneyland';
         if (view == 'Disneyland') {
-          filteredAttractions = List.from(attractions);
-        } else {
-          filteredAttractions = attractions
-              .where((attraction) => attraction.secteur == view)
-              .toList();
-        }
+          selectedView = view ?? 'Disneyland';
+          if (view == 'Disneyland') {
+            filteredAttractions = List.from(attractions);
+          } else {
+            filteredAttractions = attractions
+                .where((attraction) => attraction.secteur == view)
+                .toList();
+          }
 
-        // Mettre à jour le top 3 des attractions lors du changement de vue
-        _updateTopAttractions();
+          // Mettre à jour le top 3 des attractions lors du changement de vue
+          _updateTopAttractions();
+        }
       }
     });
   }
@@ -200,6 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: Align(
               alignment: Alignment.topLeft,
+              // ignore: unnecessary_null_comparison
               child: attractions == null
                   ? const CircularProgressIndicator()
                   : Padding(
