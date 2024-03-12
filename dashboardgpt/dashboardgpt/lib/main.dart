@@ -8,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +23,17 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key});
+  const MyHomePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   late List<Attraction> attractions;
   List<Attraction> filteredAttractions = [];
+  List<Attraction> topAttractions = [];
   List<Attraction> topAttractions = [];
   String selectedView = 'Disneyland';
 
@@ -48,7 +50,16 @@ class _MyHomePageState extends State<MyHomePage> {
     // Mettre à jour le top 3 des attractions
     _updateTopAttractions();
 
+
+    // Mettre à jour le top 3 des attractions
+    _updateTopAttractions();
+
     setState(() {});
+  }
+
+  void _updateTopAttractions() {
+    attractions.sort((a, b) => b.waitTime.compareTo(a.waitTime));
+    topAttractions = attractions.take(3).toList();
   }
 
   void _updateTopAttractions() {
@@ -58,6 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onViewChanged(String? view) {
     setState(() {
+      selectedView = view ?? 'Disneyland';
+      if (view == 'Disneyland') {
       selectedView = view ?? 'Disneyland';
       if (view == 'Disneyland') {
       selectedView = view ?? 'Disneyland';
