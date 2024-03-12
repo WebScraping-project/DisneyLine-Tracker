@@ -77,7 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
         margin: const EdgeInsets.all(16.0),
         padding: const EdgeInsets.all(16.0),
         constraints: const BoxConstraints(
-            maxHeight: double.infinity), // Contrainte verticale
+          maxHeight: double.infinity,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.0),
@@ -175,13 +176,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
+      backgroundColor: Colors.white, // Ajout de la couleur de fond blanche
       body: Row(
         children: [
           // Partie gauche avec la liste des attractions
           Expanded(
             child: Align(
               alignment: Alignment.topLeft,
-              // ignore: unnecessary_null_comparison
               child: attractions == null
                   ? const CircularProgressIndicator()
                   : Padding(
@@ -249,6 +250,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                               BorderRadius.circular(20.0),
                                         ),
                                         elevation: 5,
+                                        color: Colors
+                                            .white, // Couleur de fond blanche
                                         child: ListTile(
                                           contentPadding:
                                               const EdgeInsets.symmetric(
@@ -296,8 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 buildAttractionsInfoContainer(),
-                const SizedBox(
-                    height: 16.0), // Espacement entre les deux containers
+                const SizedBox(height: 16.0),
                 buildTopAttractionsContainer(),
               ],
             ),
