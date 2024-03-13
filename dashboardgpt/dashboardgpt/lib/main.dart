@@ -29,6 +29,16 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+Color getColorForWaitTime(int waitTime) {
+  if (waitTime < 15) {
+    return Colors.green;
+  } else if (waitTime < 30) {
+    return Colors.orange;
+  } else {
+    return Colors.red;
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   late List<Attraction> attractions;
   List<Attraction> filteredAttractions = [];
@@ -86,73 +96,20 @@ class _MyHomePageState extends State<MyHomePage> {
       if (view == 'Disneyland') {
         filteredAttractions = List.from(attractions);
       } else {
-        filteredAttractions = attractions
+        filteredAttractions = disneylandAttractions
             .where((attraction) => attraction.secteur == view)
             .toList();
-
-
-
-
       }
-
-      // Mettre à jour le top 3 des attractions lors du changement de vue
-      _updateTopAttractions();
     });
   }
 
-  Widget buildTopAttractionsContainer() {
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.all(16.0),
-        padding: const EdgeInsets.all(16.0),
-        constraints: const BoxConstraints(
-          maxHeight: double.infinity,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Top 3 Attractions',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 18.0,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            for (var attraction in topAttractions)
-              ListTile(
-                title: Text(attraction.name),
-                subtitle: Text(
-                  'Temps d\'attente: ${attraction.waitTime} minutes',
-                ),
-                trailing: Icon(
-                  attraction.isAvailable ? Icons.check_circle : Icons.cancel,
-                  color: attraction.isAvailable ? Colors.green : Colors.red,
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget buildAttractionsInfoContainer() {
-    int totalAttractions = attractions.length;
-    int availableAttractions =
-        attractions.where((attraction) => attraction.isAvailable).length;
+    int totalAttractions =
+        disneylandAttractions.length + studioAttractions.length;
+    int availableAttractions = disneylandAttractions
+            .where((attraction) => attraction.isAvailable)
+            .length +
+        studioAttractions.where((attraction) => attraction.isAvailable).length;
 
     return Align(
       alignment: Alignment.topRight,
@@ -271,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   'Disneyland',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -297,8 +254,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       );
                                     }).toList();
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
                                     child: Icon(Icons.arrow_drop_down),
                                   ),
                                 ),
@@ -308,11 +265,146 @@ class _MyHomePageState extends State<MyHomePage> {
                             Expanded(
                               child: Container(
                                 constraints:
+                                   
                                     const BoxConstraints(maxWidth: 600),
                                 child: ListView.builder(
                                   itemCount: filteredAttractions.length,
                                   itemBuilder: (context, index) {
                                     var attraction = filteredAttractions[index];
+                                    return Container(
+                                      margin:
+                                         
+                                          const EdgeInsets.only(bottom: 16.0),
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                             
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        elevation: 5,
+                                        color: Colors
+                                            
+                                            .white, // Couleur de fond blanche
+                                        child: ListTile(
+                                          contentPadding:
+                                             
+                                              const EdgeInsets.symmetric(
+                                                  
+                                            horizontal: 16.0,
+                                          ),
+                                          leading: ClipRRect(
+                                            borderRadius:
+                                               
+                                                BorderRadius.circular(10.0),
+                                            child: Image.asset(
+                                              attraction.photoUrl,
+                                              width: 56,
+                                              height: 56,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          title: Text(
+                                            attraction.name,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          subtitle: Text.rich(
+                                            TextSpan(
+                                              text: 'Temps d\'attente: ',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                              children: [
+                                                TextSpan(
+                                                  text:
+                                                      '${attraction.waitTime} minutes',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: getColorForWaitTime(
+                                                        attraction.waitTime),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                attraction.isAvailable
+                                                    ? Icons.check_circle
+                                                    : Icons.cancel,
+                                                color: attraction.isAvailable
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                              ),
+                                              const SizedBox(
+                                                  width:
+                                                      8), // Espacement entre les icônes
+                                              IconButton(
+                                                icon: Icon(
+                                                  attraction.isFavorite
+                                                      ? Icons.star
+                                                      : Icons.star_border,
+                                                  color: Colors.black,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    attraction.isFavorite =
+                                                        !attraction.isFavorite;
+                                                    if (attraction.isFavorite) {
+                                                      favoriteAttractions
+                                                          .add(attraction);
+                                                    } else {
+                                                      favoriteAttractions
+                                                          .remove(attraction);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+          // Partie milieu avec la liste des attractions des Disney Studios
+          Expanded(
+            child: Align(
+              alignment: Alignment.topLeft,
+              // ignore: unnecessary_null_comparison
+              child: studioAttractions == null
+                  ? const CircularProgressIndicator()
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Disney Studios',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                            const SizedBox(height: 16.0),
+                            Expanded(
+                              child: Container(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 600),
+                                child: ListView.builder(
+                                  itemCount: studioAttractions.length,
+                                  itemBuilder: (context, index) {
+                                    var attraction = studioAttractions[index];
                                     return Container(
                                       margin:
                                           const EdgeInsets.only(bottom: 16.0),
@@ -327,8 +419,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: ListTile(
                                           contentPadding:
                                               const EdgeInsets.symmetric(
-                                            horizontal: 16.0,
-                                          ),
+                                                  horizontal: 16.0),
                                           leading: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -339,17 +430,64 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fit: BoxFit.cover,
                                             ),
                                           ),
-                                          title: Text(attraction.name),
-                                          subtitle: Text(
-                                            'Temps d\'attente: ${attraction.waitTime} minutes',
+                                          title: Text(
+                                            attraction.name,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          trailing: Icon(
-                                            attraction.isAvailable
-                                                ? Icons.check_circle
-                                                : Icons.cancel,
-                                            color: attraction.isAvailable
-                                                ? Colors.green
-                                                : Colors.red,
+                                          subtitle: Text.rich(
+                                            TextSpan(
+                                              text: 'Temps d\'attente: ',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                              children: [
+                                                TextSpan(
+                                                  text:
+                                                      '${attraction.waitTime} minutes',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: getColorForWaitTime(
+                                                        attraction.waitTime),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                attraction.isAvailable
+                                                    ? Icons.check_circle
+                                                    : Icons.cancel,
+                                                color: attraction.isAvailable
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                              ),
+                                              const SizedBox(
+                                                  width:
+                                                      8), // Espacement entre les icônes
+                                              IconButton(
+                                                icon: Icon(
+                                                  attraction.isFavorite
+                                                      ? Icons.star
+                                                      : Icons.star_border,
+                                                  color: Colors.black,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    attraction.isFavorite =
+                                                        !attraction.isFavorite;
+                                                    if (attraction.isFavorite) {
+                                                      favoriteAttractions
+                                                          .add(attraction);
+                                                    } else {
+                                                      favoriteAttractions
+                                                          .remove(attraction);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -359,107 +497,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ],
-
-      body: Center(
-        child: attractions == null
-            ? CircularProgressIndicator()
-            : Container(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        width: 200, // Ajuster la largeur selon votre besoin
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          gradient: const LinearGradient(
-                            colors: [Colors.blue, Colors.green],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                        ),
-                        child: DropdownButton<String>(
-                          value: selectedView,
-                          onChanged: _onViewChanged,
-                          isExpanded: true,
-                          elevation: 5,
-                          items: [
-                            'Disneyland',
-                            'Main Street U.S.A',
-                            'Frontierland',
-                            'Adventureland',
-                            'Fantasyland',
-                            'Discoveryland'
-                          ].map((String view) {
-                            return DropdownMenuItem<String>(
-                              value: view,
-                              child: Center(
-                                child: Text(
-                                  view,
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          // Utilisez icon pour appliquer un style personnalisé
-                          underline:
-                              Container(), // Ajoutez cette ligne pour éviter l'erreur
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    Expanded(
-                      child: Container(
-                        constraints: BoxConstraints(maxWidth: 600),
-                        child: ListView.builder(
-                          itemCount: filteredAttractions.length,
-                          itemBuilder: (context, index) {
-                            var attraction = filteredAttractions[index];
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 16.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color.fromARGB(255, 158, 158, 158)
-                                        .withOpacity(0.2),
-                                    spreadRadius: 0.1,
-                                    blurRadius: 0,
-                                    offset: const Offset(0, 0),
-                                  ),
-                                ],
-                              ),
-                              child: ListTile(
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.asset(
-                                    attraction.photoUrl,
-                                    width: 56,
-                                    height: 56,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                title: Text(attraction.name),
-                                subtitle: Text(
-                                  'Temps d\'attente: ${attraction.waitTime} minutes',
-                                ),
-                                trailing: Icon(
-                                  attraction.isAvailable
-                                      ? Icons.check_circle
-                                      : Icons.cancel,
-                                  color: attraction.isAvailable
-                                      ? Colors.green
-                                      : Colors.red,
-                                ),
-                              ),
-                            );
-                          },
-
                         ),
                       ),
                     ),
@@ -473,7 +510,68 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 buildAttractionsInfoContainer(),
                 const SizedBox(height: 16.0),
-                buildTopAttractionsContainer(),
+                Container(
+                  margin: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
+                  constraints: const BoxConstraints(
+                    maxHeight: double.infinity,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Attractions Favorites',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      for (var attraction in favoriteAttractions)
+                        ListTile(
+                          title: Text(attraction.name),
+                          subtitle: Text.rich(
+                            TextSpan(
+                              text: 'Temps d\'attente: ',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              children: [
+                                TextSpan(
+                                  text: '${attraction.waitTime} minutes',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: getColorForWaitTime(
+                                        attraction.waitTime),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          trailing: Icon(
+                            attraction.isAvailable
+                                ? Icons.check_circle
+                                : Icons.cancel,
+                            color: attraction.isAvailable
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
