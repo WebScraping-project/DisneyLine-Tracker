@@ -8,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -47,9 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _loadAttractions() async {
     attractions = await parseAttractions();
     filteredAttractions = List.from(attractions);
-
-    // Mettre à jour le top 3 des attractions
-    _updateTopAttractions();
 
     // Mettre à jour le top 3 des attractions
     _updateTopAttractions();
@@ -187,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Center(
             child: Text(
               'Disneyline Tracker',
-              style: GoogleFonts.dancingScript(
+              style: GoogleFonts.happyMonkey(
                 fontSize: 50.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white, // Couleur du texte
@@ -204,7 +200,6 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: Align(
               alignment: Alignment.topLeft,
-              // ignore: unnecessary_null_comparison
               child: attractions == null
                   ? const CircularProgressIndicator()
                   : Padding(
@@ -213,6 +208,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
+                            const Text(
+                              'Trier les attractions',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20.0),
@@ -225,32 +227,34 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Container(
                                 constraints:
                                     const BoxConstraints(maxWidth: 300),
-                                child: DropdownButton<String>(
-                                  value: selectedView,
-                                  onChanged: _onViewChanged,
-                                  isExpanded: true,
-                                  elevation: 5,
-                                  items: [
-                                    'Disneyland',
-                                    'Main Street U.S.A',
-                                    'Frontierland',
-                                    'Adventureland',
-                                    'Fantasyland',
-                                    'Discoveryland',
-                                  ].map((String view) {
-                                    return DropdownMenuItem<String>(
-                                      value: view,
-                                      child: Center(
-                                        child: Text(
-                                          view,
-                                          style: const TextStyle(
-                                            color: Colors.black,
+                                child: PopupMenuButton<String>(
+                                  icon: const Icon(
+                                    Icons.sort,
+                                    color: Colors.white,
+                                  ),
+                                  onSelected: _onViewChanged,
+                                  itemBuilder: (BuildContext context) {
+                                    return [
+                                      'Disneyland',
+                                      'Main Street U.S.A',
+                                      'Frontierland',
+                                      'Adventureland',
+                                      'Fantasyland',
+                                      'Discoveryland',
+                                    ].map((String view) {
+                                      return PopupMenuItem<String>(
+                                        value: view,
+                                        child: Center(
+                                          child: Text(
+                                            view,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  underline: Container(),
+                                      );
+                                    }).toList();
+                                  },
                                 ),
                               ),
                             ),
