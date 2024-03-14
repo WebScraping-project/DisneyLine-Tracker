@@ -29,7 +29,7 @@ import 'attraction.dart';
     "Disneyland Railroad Fantasyland Station": "assets/DisneyRailroad.jpg",
     "Dumbo the Flying Elephant": "assets/Dumbo.jpg",
     "La Tanière du Dragon": "assets/TaniereDragon.jpg",
-    "Le Carrousel de Lancelot": "assets/CarrouselLancelot.jpg",
+    "Le Carrousel de Lancelot ": "assets/CarrouselLancelot.jpg",
     "Le Pays des Contes de Fées": "assets/PaysContesFees.jpg",
     "Les Voyages de Pinocchio": "assets/Pinocchio.jpg",
     "Mad Hatter's Tea Cups": "assets/TeaCups.jpg",
@@ -42,7 +42,7 @@ import 'attraction.dart';
     "Phantom Manor": "assets/PhantomManor.jpg",
     "River Rogue Keelboats": "assets/RiverRogue.jpg",
     "Rustler Roundup Shootin' Gallery": "assets/RustlerRoundup.jpg",
-    "Thunder Mesa Riverboat Landing": "assets/ThunderMesaRiverboatLanding.jpg",
+    "Thunder Mesa Riverboat Landing": "assets/RiverRogue.jpg",
     "Disneyland Railroad Main Street Station": "assets/DisneyRailroad.jpg",
     "Main Street Vehicles": "assets/MainStreetVehicles.jpg",
   };
