@@ -102,6 +102,23 @@ flutter:
     - assets/PhantomManor.jpg
     - assets/MainStreetVehicles.jpg
 
+
+    #photos attractions disney studios
+    - assets/AvengersAssemble.jpg
+    - assets/SpidermanWeb.jpg
+    - assets/MeetSpiderman.jpg
+    - assets/TwilightZoneTowerofTerror.jpg
+    - assets/ArtDisney.jpg
+    - assets/CarsQuatreRouesRallye.jpg
+    - assets/CarsRoadTrip.jpg
+    - assets/CrushCoaster.jpg
+    - assets/TapisVolants.jpg
+    - assets/Ratatouille.jpg
+    - assets/RCracer.jpg
+    - assets/ZigZagSpin.jpg
+    - assets/ToySoldiersParachuteDrop.jpg
+
+
 # json données api
     - assets/disneyland.json
     - assets/disney_studios.json

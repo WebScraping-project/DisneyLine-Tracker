@@ -49,6 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // Mettre à jour le top 3 des attractions
     _updateTopAttractions();
+    disneylandAttractions = await parseAttractions();
+    studioAttractions = await parseStudioAttractions();
+
+    // Initialiser filteredAttractions avec les attractions de Disneyland par défaut
+    filteredAttractions = List.from(disneylandAttractions);
 
     setState(() {});
   }
@@ -61,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onViewChanged(String? view) {
     setState(() {
       selectedView = view ?? 'Disneyland';
+
       if (view == 'Disneyland') {
 
         selectedView = view ?? 'Disneyland';
@@ -77,13 +83,20 @@ class _MyHomePageState extends State<MyHomePage> {
           // Mettre à jour le top 3 des attractions lors du changement de vue
           _updateTopAttractions();
         }
+      if (view == 'Disneyland') {
         filteredAttractions = List.from(attractions);
       } else {
         filteredAttractions = attractions
             .where((attraction) => attraction.secteur == view)
             .toList();
 
+
+
+
       }
+
+      // Mettre à jour le top 3 des attractions lors du changement de vue
+      _updateTopAttractions();
     });
   }
 
@@ -200,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: Align(
               alignment: Alignment.topLeft,
-              child: attractions == null
+              child: disneylandAttractions == null
                   ? const CircularProgressIndicator()
                   : Padding(
                       padding: const EdgeInsets.only(left: 20.0, top: 20.0),
@@ -255,6 +268,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                       );
                                     }).toList();
                                   },
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Disneyland',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                PopupMenuButton<String>(
+                                  initialValue: selectedView,
+                                  onSelected: _onViewChanged,
+                                  itemBuilder: (BuildContext context) {
+                                    return [
+                                      'Toutes les attractions',
+                                      'Main Street U.S.A',
+                                      'Frontierland',
+                                      'Adventureland',
+                                      'Fantasyland',
+                                      'Discoveryland',
+                                    ].map((String view) {
+                                      return PopupMenuItem<String>(
+                                        value: view,
+                                        child: Text(view),
+                                      );
+                                    }).toList();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Icon(Icons.arrow_drop_down),
+                                  ),
                                 ),
                               ),
                             ),
@@ -313,7 +359,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ],
-=======
+
       body: Center(
         child: attractions == null
             ? CircularProgressIndicator()
