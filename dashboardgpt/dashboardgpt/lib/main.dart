@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'attraction.dart';
 import 'liste_attractions.dart';
@@ -11,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +26,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -146,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: Align(
               alignment: Alignment.topLeft,
+              // ignore: unnecessary_null_comparison
               child: disneylandAttractions == null
                   ? const CircularProgressIndicator()
                   : Padding(
@@ -157,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   'Disneyland',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -183,8 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       );
                                     }).toList();
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
                                     child: Icon(Icons.arrow_drop_down),
                                   ),
                                 ),
@@ -231,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           subtitle: Text.rich(
                                             TextSpan(
                                               text: 'Temps d\'attente: ',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
                                               children: [
                                                 TextSpan(
@@ -257,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     ? Colors.green
                                                     : Colors.red,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                   width:
                                                       8), // Espacement entre les icônes
                                               IconButton(
@@ -300,11 +301,13 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: Align(
               alignment: Alignment.topLeft,
+              // ignore: unnecessary_null_comparison
               child: studioAttractions == null
                   ? const CircularProgressIndicator()
                   : Padding(
                       padding: const EdgeInsets.only(left: 20.0, top: 20.0),
                       child: Container(
+                        //color: const Color.fromARGB(255, 236, 7, 7),
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
@@ -357,7 +360,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           subtitle: Text.rich(
                                             TextSpan(
                                               text: 'Temps d\'attente: ',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
                                               children: [
                                                 TextSpan(
@@ -383,7 +386,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     ? Colors.green
                                                     : Colors.red,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                   width:
                                                       8), // Espacement entre les icônes
                                               IconButton(
@@ -423,75 +426,119 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           // Partie droite avec les attractions favorites
-          SizedBox(
-            width: 400.0, // Ajustez la largeur selon vos besoins
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                buildAttractionsInfoContainer(),
-                const SizedBox(height: 16.0),
-                Container(
-                  margin: const EdgeInsets.all(16.0),
-                  padding: const EdgeInsets.all(16.0),
-                  constraints: const BoxConstraints(
-                    maxHeight: double.infinity,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
+          Padding(
+            padding:
+                const EdgeInsets.only(right: 100.0), // Décaler vers la gauche
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                  color: const Color.fromRGBO(239, 237, 245, 1),
+                  borderRadius:
+                      BorderRadius.circular(15.0), // Arrondir les bords
+                ),
+                width: 300.0, // Largeur ajustée
+                child: SizedBox(
+                  // Hauteur ajustée à une valeur fixe
+                  height: 800.0,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Text(
-                        'Attractions Favorites',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      for (var attraction in favoriteAttractions)
-                        ListTile(
-                          title: Text(attraction.name),
-                          subtitle: Text.rich(
-                            TextSpan(
-                              text: 'Temps d\'attente: ',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                      buildAttractionsInfoContainer(),
+                      const SizedBox(height: 16.0),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TextSpan(
-                                  text: '${attraction.waitTime} minutes',
+                                const Text(
+                                  'Attractions Favorites',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: getColorForWaitTime(
-                                        attraction.waitTime),
+                                    color: Colors.black,
+                                    fontSize: 18.0,
                                   ),
                                 ),
+                                const SizedBox(height: 10.0),
+                                // Vérifier si la liste des attractions favorites est vide
+                                favoriteAttractions.isEmpty
+                                    ? const Text(
+                                        'Aucune attraction favorite actuellement',
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      )
+                                    : Column(
+                                        children: [
+                                          for (var attraction
+                                              in favoriteAttractions)
+                                            ListTile(
+                                              title: Text(attraction.name),
+                                              subtitle: Text.rich(
+                                                TextSpan(
+                                                  text: 'Temps d\'attente: ',
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  children: [
+                                                    TextSpan(
+                                                      text:
+                                                          '${attraction.waitTime} minutes',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            getColorForWaitTime(
+                                                                attraction
+                                                                    .waitTime),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              trailing: Icon(
+                                                attraction.isAvailable
+                                                    ? Icons.check_circle
+                                                    : Icons.cancel,
+                                                color: attraction.isAvailable
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                               ],
                             ),
                           ),
-                          trailing: Icon(
-                            attraction.isAvailable
-                                ? Icons.check_circle
-                                : Icons.cancel,
-                            color: attraction.isAvailable
-                                ? Colors.green
-                                : Colors.red,
-                          ),
                         ),
+                      ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],
