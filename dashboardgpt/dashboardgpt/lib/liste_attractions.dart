@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'attraction.dart';
 
+
   Map<String, String> attractionPhotos = {
     "Adventure Isle": "assets/AdventureIsle.jpg",
     "Indiana Jones and the Temple of Peril Single Rider": "assets/IndianaJones.jpg",
@@ -47,6 +48,7 @@ import 'attraction.dart';
     "Main Street Vehicles": "assets/MainStreetVehicles.jpg",
   };
 
+
 Future<String> _loadJsonData() async {
   return await rootBundle.loadString('assets/disneyland.json');
 }
@@ -69,7 +71,9 @@ Future<List<Attraction>> parseAttractions() async {
       bool isOpen = ride['is_open'];
       int waitTime = ride['wait_time'];
 
-      String photoUrl = attractionPhotos.containsKey(name) ? attractionPhotos[name]! : "default.jpg"; 
+      String photoUrl = attractionPhotos.containsKey(name)
+          ? attractionPhotos[name]!
+          : "default.jpg";
 
       Attraction attraction = Attraction(
         name: name,
