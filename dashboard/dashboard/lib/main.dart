@@ -712,6 +712,10 @@ import 'dart:async';
         filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.isAvailable).toList();
         filteredStudioAttractions = filteredStudioAttractions.where((attraction) => attraction.isAvailable).toList();
         break;
+      case 'non_availability':
+        filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => !attraction.isAvailable).toList();
+        filteredStudioAttractions = filteredStudioAttractions.where((attraction) => !attraction.isAvailable).toList();
+        break;
     }
   }
 }
@@ -734,7 +738,7 @@ class FilterWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.07),
             child: const Text(
-              'Trier par :',
+              'Filtres :',
               style: TextStyle(
                 fontSize: 24.0,
                 color: Colors.white,
@@ -757,8 +761,15 @@ class FilterWidget extends StatelessWidget {
           ),
           SizedBox(width: MediaQuery.of(context).size.width * 0.004),
           FilterButton(
-            title: 'Disponibilité',
+            title: 'Disponibles',
             filterKey: 'availability',
+            selectedFilters: selectedFilters,
+            onFiltersChanged: onFiltersChanged,
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.004),
+          FilterButton(
+            title: 'Non disponibles',
+            filterKey: 'non_availability',
             selectedFilters: selectedFilters,
             onFiltersChanged: onFiltersChanged,
           ),
