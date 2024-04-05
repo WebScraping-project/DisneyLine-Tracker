@@ -353,13 +353,51 @@
                                             0.016),
                                     child: Column(
                                       children: [
-                                        const Text(
-                                          'Disney Studios',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 25.0,
-                                          ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Text(
+                                              'Disney Studios',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontSize: 25.0,
+                                              ),
+                                            ),
+                                            PopupMenuButton<String>(
+                                                  initialValue: selectedView,
+                                                  onSelected: _onViewChanged,
+                                                  itemBuilder:
+                                                      (BuildContext context) {
+                                                    return [
+                                                      'Toutes les attractions',
+                                                      'Marvel Avengers Campus',
+                                                      'Production Courtyard',
+                                                      'Toon Studio',
+                                                    ].map((String view) {
+                                                      return PopupMenuItem<String>(
+                                                        value: view,
+                                                        child: Text(view),
+                                                      );
+                                                    }).toList();
+                                                  },
+                                                   offset: const Offset(200, 0),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.004),
+                                                    child: const Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color: Colors
+                                                          .white, // Définit la couleur de l'icône en blanc
+                                                    ),
+                                                  ),
+                  
+                                                ),
+                                          ],
                                         ),
                                         SizedBox(
                                           height:
@@ -756,6 +794,21 @@ void _onViewChanged(String? view) {
       case 'Discoveryland':
         filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.secteur == 'Discoveryland').toList();
         selectedFilters.remove('Discoveryland');
+
+// filtrage des land par Disney Studio
+      case 'Toon Studio':
+              filteredStudioAttractions = filteredStudioAttractions.where((attraction) => attraction.secteur == 'Toon Studio').toList();
+              selectedFilters.remove('Toon Studio');
+
+      case 'Marvel Avengers Campus':
+              filteredStudioAttractions = filteredStudioAttractions.where((attraction) => attraction.secteur == 'Marvel Avengers Campus').toList();
+              selectedFilters.remove('Marvel Avengers Campus');
+
+              
+      case 'Production Courtyard':
+              filteredStudioAttractions = filteredStudioAttractions.where((attraction) => attraction.secteur == 'Production Courtyard').toList();
+              selectedFilters.remove('Production Courtyard');
+
     }
   }
 }
