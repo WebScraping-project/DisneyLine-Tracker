@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'attraction.dart';
+import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 
 
   Map<String, String> attractionPhotos = {
@@ -49,43 +48,64 @@ import 'attraction.dart';
   };
 
 
-Future<String> _loadJsonData() async {
-  return await rootBundle.loadString('assets/disneyland.json');
+  List<Map<String, AttributeValue>> generateLandKeys() {
+  List<Map<String, AttributeValue>> landKeys = [];
+  for (int i = 17; i <= 21; i++) {
+    landKeys.add({'land_id': AttributeValue.fromJson({'S': '$i'})});
+  }
+  return landKeys;
 }
 
-Future<List<Attraction>> parseAttractions() async {
-  String jsonData = await _loadJsonData();
+List<Attraction> parseAttractionsFromDynamo(Map<String, AttributeValue> data) {
+  //String landId = data['land_id']!.s!;
+  String landName = data['name']!.s!;
+  List<dynamic>? ridesData = data['rides']!.l;
 
   List<Attraction> attractionsList = [];
 
-  Map<String, dynamic> jsonDataMap = jsonDecode(jsonData);
+  if (ridesData != null) {
+    for (var rideData in ridesData) {
+      Map<String, AttributeValue>? rideAttributes = rideData!.m;
+      if (rideAttributes != null) {
+        String name = rideAttributes['name']!.s!;
+        bool isOpen = rideAttributes['is_open']!.boolValue!;
+        int waitTime = int.parse(rideAttributes['wait_time']!.n!);
 
-  List<dynamic> lands = jsonDataMap['lands'];
-
-  for (var land in lands) {
-    String secteur = land['name'];
-    List<dynamic> rides = land['rides'];
-
-    for (var ride in rides) {
-      String name = ride['name'];
-      bool isOpen = ride['is_open'];
-      int waitTime = ride['wait_time'];
-
-      String photoUrl = attractionPhotos.containsKey(name)
+  
+        String photoUrl = attractionPhotos.containsKey(name)
           ? attractionPhotos[name]!
           : "default.jpg";
+    
 
-      Attraction attraction = Attraction(
-        name: name,
-        isAvailable: isOpen,
-        waitTime: waitTime,
-        secteur: secteur,
-        photoUrl: photoUrl,
-      );
+        Attraction attraction = Attraction(
+          name: name,
+          isAvailable: isOpen,
+          waitTime: waitTime,
+          secteur: landName,
+          photoUrl: photoUrl, 
+        );
 
-      attractionsList.add(attraction);
+        attractionsList.add(attraction);
+      }
     }
   }
 
   return attractionsList;
 }
+
+Future<List<Attraction>> attractionsAllLands(DynamoDB dynamoDB, String tableName) async {
+  List<Attraction> attractionsList = [];
+  List<Map<String, AttributeValue>> keys= generateLandKeys();
+
+  for (Map<String, AttributeValue> key in keys) {
+    final data= await dynamoDB.getItem(
+      key: key,
+      tableName: tableName,
+    );
+    attractionsList.addAll(parseAttractionsFromDynamo(data.item!));
+  }
+  return attractionsList;
+}
+
+
+

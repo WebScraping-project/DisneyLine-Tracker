@@ -1,6 +1,5 @@
-  import 'dart:async';
-  import 'package:flutter/material.dart';
-  import 'dart:math';
+import 'package:flutter/material.dart';
+import 'dart:math';
 
 class StarBackground extends StatelessWidget {
   const StarBackground({super.key});
