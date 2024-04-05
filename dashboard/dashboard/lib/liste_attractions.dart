@@ -47,7 +47,6 @@ import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
     "Main Street Vehicles": "assets/MainStreetVehicles.jpg",
   };
 
-
   List<Map<String, AttributeValue>> generateLandKeys() {
   List<Map<String, AttributeValue>> landKeys = [];
   for (int i = 17; i <= 21; i++) {
@@ -92,7 +91,6 @@ List<Attraction> parseAttractionsFromDynamo(Map<String, AttributeValue> data) {
 
   return attractionsList;
 }
-
 Future<List<Attraction>> attractionsAllLands(DynamoDB dynamoDB, String tableName) async {
   List<Attraction> attractionsList = [];
   List<Map<String, AttributeValue>> keys= generateLandKeys();
@@ -106,6 +104,3 @@ Future<List<Attraction>> attractionsAllLands(DynamoDB dynamoDB, String tableName
   }
   return attractionsList;
 }
-
-
-

@@ -83,6 +83,3 @@ Future<List<Attraction>> attractionsStudio(DynamoDB dynamoDB, String tableName) 
   }
   return attractionsList;
 }
-
-
-

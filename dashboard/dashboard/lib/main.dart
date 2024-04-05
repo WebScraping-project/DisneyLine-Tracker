@@ -14,7 +14,6 @@
     const MyApp({super.key});
     @override
     Widget build(BuildContext context) {
-
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -53,7 +52,6 @@
     String selectedView = 'Disneyland';
      List<String> selectedFilters = []; 
 
-
     @override
     void initState() {
       super.initState();
@@ -61,6 +59,7 @@
     }
 
     Future<void> _loadAttractions() async {
+
       final dynamoDB = DynamoDB(
     region: 'eu-north-1',
     credentials: AwsClientCredentials(
@@ -117,6 +116,7 @@
                   onFiltersChanged: (updatedFilters) {
                     setState(() {
                       selectedFilters = updatedFilters; // Mettre à jour la liste de filtres lorsqu'ils changent
+
                       print(selectedFilters); 
                       applyFilters(selectedFilters); 
                     });
@@ -728,7 +728,6 @@ void _onViewChanged(String? view) {
         filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.isAvailable).toList();
         filteredStudioAttractions = filteredStudioAttractions.where((attraction) => attraction.isAvailable).toList();
         break;
-
       case 'non_availability':
         filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => !attraction.isAvailable).toList();
         filteredStudioAttractions = filteredStudioAttractions.where((attraction) => !attraction.isAvailable).toList();
