@@ -1,9 +1,10 @@
-import 'dart:async';
-  import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
   import 'attraction.dart';
   import 'liste_attractions.dart';
-  import 'liste_attraction_studio.dart'; // Importer le fichier pour les attractions des Disney Studios
+  import 'liste_attraction_studio.dart';
   import 'etoiles.dart';
+  import 'acces.dart';
+  import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 
   void main() {
     runApp(const MyApp());
@@ -43,8 +44,8 @@ import 'dart:async';
   }
 
   class _MyHomePageState extends State<MyHomePage> {
-    late List<Attraction> disneylandAttractions;
-    late List<Attraction> studioAttractions;
+   List<Attraction> disneylandAttractions = [];
+    List<Attraction> studioAttractions = [];
     List<Attraction> filteredDisneylandAttractions = [];
     List<Attraction> filteredStudioAttractions = [];
     List<Attraction> favoriteAttractions = [];
@@ -58,8 +59,16 @@ import 'dart:async';
     }
 
     Future<void> _loadAttractions() async {
-      disneylandAttractions = await parseAttractions();
-      studioAttractions = await parseStudioAttractions();
+
+      final dynamoDB = DynamoDB(
+    region: 'eu-north-1',
+    credentials: AwsClientCredentials(
+      accessKey: ACCES_KEY,
+      secretKey: SECRET_KEY,
+    )
+  );
+      disneylandAttractions = await attractionsAllLands(dynamoDB, 'BDDdisneyland');
+      studioAttractions = await attractionsStudio(dynamoDB, 'BDDdisneyland');
       filteredDisneylandAttractions = List.from(disneylandAttractions);
       filteredStudioAttractions = List.from(studioAttractions);
       setState(() {});
@@ -107,6 +116,8 @@ import 'dart:async';
                   onFiltersChanged: (updatedFilters) {
                     setState(() {
                       selectedFilters = updatedFilters; // Mettre à jour la liste de filtres lorsqu'ils changent
+
+                      print(selectedFilters); 
                       applyFilters(selectedFilters); 
                     });
                   },
@@ -635,7 +646,7 @@ import 'dart:async';
             ],
           ),
         ),
-        Positioned.fill(
+        const Positioned.fill(
           child: StarBackground(),
         ),
       ]),
@@ -679,10 +690,14 @@ import 'dart:async';
     );
   }
 
- void _onViewChanged(String? view) {
+void _onViewChanged(String? view) {
   setState(() {
-    selectedView = view ?? 'Disneyland';
-    applyFilters(selectedFilters ?? []); // Passer les filtres sélectionnés à applyFilters
+    selectedView = view ?? 'Disneyland'; // Mise à jour de la vue sélectionnée
+    if (view != null && !selectedFilters.contains(view)) {
+      selectedFilters.add(view); // Ajout de l'élément sélectionné à la liste des filtres
+    }
+  
+    applyFilters(selectedFilters); // Application des filtres sélectionnés
   });
 }
 
@@ -703,11 +718,12 @@ import 'dart:async';
         filteredDisneylandAttractions.sort((a, b) => a.waitTime.compareTo(b.waitTime));
         filteredStudioAttractions.sort((a, b) => a.waitTime.compareTo(b.waitTime));
         break;
+        
       case 'favorites':
-
         filteredDisneylandAttractions = disneylandAttractions.where((attraction) => attraction.isFavorite).toList();
         filteredStudioAttractions = studioAttractions.where((attraction) => attraction.isFavorite).toList();
         break;
+
       case 'availability':
         filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.isAvailable).toList();
         filteredStudioAttractions = filteredStudioAttractions.where((attraction) => attraction.isAvailable).toList();
@@ -716,6 +732,30 @@ import 'dart:async';
         filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => !attraction.isAvailable).toList();
         filteredStudioAttractions = filteredStudioAttractions.where((attraction) => !attraction.isAvailable).toList();
         break;
+
+// filtrage des lands du parc disneyland
+      case 'Main Street U.S.A':
+        filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.secteur == 'Main Street U.S.A').toList();
+        selectedFilters.remove('Main Street U.S.A');
+        break;
+
+      case 'Frontierland':
+        filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.secteur == 'Frontierland').toList();
+        selectedFilters.remove('Frontierland');
+        break;
+   
+      case 'Adventureland':
+        filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.secteur == 'Adventureland').toList();
+        selectedFilters.remove('Adventureland');
+        break;
+
+      case 'Fantasyland':
+        filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.secteur == 'Fantasyland').toList();
+        selectedFilters.remove('Fantasyland');
+
+      case 'Discoveryland':
+        filteredDisneylandAttractions = filteredDisneylandAttractions.where((attraction) => attraction.secteur == 'Discoveryland').toList();
+        selectedFilters.remove('Discoveryland');
     }
   }
 }
@@ -726,7 +766,7 @@ class FilterWidget extends StatelessWidget {
   final List<String>? selectedFilters;
   final Function(List<String>)? onFiltersChanged;
 
-  const FilterWidget({Key? key, this.selectedFilters, this.onFiltersChanged}) : super(key: key);
+  const FilterWidget({super.key, this.selectedFilters, this.onFiltersChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -785,7 +825,7 @@ class FilterButton extends StatelessWidget {
   final List<String>? selectedFilters;
   final Function(List<String>)? onFiltersChanged;
 
-  const FilterButton({
+  const FilterButton({super.key, 
     required this.title,
     required this.filterKey,
     required this.selectedFilters,
