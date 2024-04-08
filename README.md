@@ -6,6 +6,10 @@ Bienvenue dans DisneyLine Tracker, votre compagnon ultime pour suivre en direct 
 
 DisneyLine Tracker est un projet innovant qui combine la puissance de Flutter et de Queue-Times.com pour créer un dashboard dynamique, vous offrant une visibilité en temps réel sur les temps d'attente de toutes les attractions des parcs Disneyland Paris et Walt Disney Studios !
 
+<p align="center">
+    <img src="Demo.jpg" alt="Texte alternatif" width="800">
+</p>
+
 ## Fonctionnalités
 
 - 🕒 **Suivi en temps réel :** Obtenez des mises à jour instantanées sur les temps d'attente des attractions.
