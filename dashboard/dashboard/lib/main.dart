@@ -62,8 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final dynamoDB = DynamoDB(
         region: 'eu-north-1',
         credentials: AwsClientCredentials(
-          accessKey: ACCES_KEY,
-          secretKey: SECRET_KEY,
+          accessKey: accessKey,
+          secretKey: secretKey,
         ));
     disneylandAttractions =
         await attractionsAllLands(dynamoDB, 'BDDdisneyland');
@@ -140,7 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   selectedFilters =
                       updatedFilters; // Mettre à jour la liste de filtres lorsqu'ils changent
 
-                  print(selectedFilters);
                   applyFilters(selectedFilters);
                 });
               },
@@ -743,7 +742,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   selectedFilters =
                       updatedFilters; // Mettre à jour la liste de filtres lorsqu'ils changent
 
-                  print(selectedFilters);
                   applyFilters(selectedFilters);
                 });
               },
@@ -1348,8 +1346,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   selectedFilters =
                       updatedFilters; // Mettre à jour la liste de filtres lorsqu'ils changent
-
-                  print(selectedFilters);
                   applyFilters(selectedFilters);
                 });
               },
@@ -1935,6 +1931,35 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       selectedView = view ?? 'Disneyland'; // Mise à jour de la vue sélectionnée
       if (view != null && !selectedFilters.contains(view)) {
+        List<String> lands = [
+          'Frontierland',
+          'Adventureland',
+          'Fantasyland',
+          'Discoveryland',
+          'Main Street U.S.A'
+        ];
+
+        List<String> landsstudio = [
+          'Toon Studio',
+          'Marvel Avengers Campus',
+          'Production Courtyard',
+        ];
+
+        if (lands.contains(view)) {
+          for (var i in selectedFilters.toList()) {
+            if (lands.contains(i)) {
+              selectedFilters.remove(i);
+            }
+          }
+        }
+        if (landsstudio.contains(view)) {
+          for (var i in selectedFilters.toList()) {
+            if (landsstudio.contains(i)) {
+              selectedFilters.remove(i);
+            }
+          }
+        }
+
         selectedFilters
             .add(view); // Ajout de l'élément sélectionné à la liste des filtres
       }
@@ -1951,7 +1976,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // Aucun filtre sélectionné, ne rien faire ou afficher tout
       return;
     }
-
     // Appliquer chaque filtre sélectionné
     for (String filter in selectedFilters) {
       switch (filter) {
@@ -1993,56 +2017,54 @@ class _MyHomePageState extends State<MyHomePage> {
           filteredDisneylandAttractions = filteredDisneylandAttractions
               .where((attraction) => attraction.secteur == 'Main Street U.S.A')
               .toList();
-          selectedFilters.remove('Main Street U.S.A');
           break;
 
         case 'Frontierland':
           filteredDisneylandAttractions = filteredDisneylandAttractions
               .where((attraction) => attraction.secteur == 'Frontierland')
               .toList();
-          selectedFilters.remove('Frontierland');
           break;
 
         case 'Adventureland':
           filteredDisneylandAttractions = filteredDisneylandAttractions
               .where((attraction) => attraction.secteur == 'Adventureland')
               .toList();
-          selectedFilters.remove('Adventureland');
           break;
 
         case 'Fantasyland':
           filteredDisneylandAttractions = filteredDisneylandAttractions
               .where((attraction) => attraction.secteur == 'Fantasyland')
               .toList();
-          selectedFilters.remove('Fantasyland');
+          break;
 
         case 'Discoveryland':
           filteredDisneylandAttractions = filteredDisneylandAttractions
               .where((attraction) => attraction.secteur == 'Discoveryland')
               .toList();
-          selectedFilters.remove('Discoveryland');
+          break;
 
 // filtrage des land par Disney Studio
         case 'Toon Studio':
           filteredStudioAttractions = filteredStudioAttractions
               .where((attraction) => attraction.secteur == 'Toon Studio')
               .toList();
-          selectedFilters.remove('Toon Studio');
+          break;
 
         case 'Marvel Avengers Campus':
           filteredStudioAttractions = filteredStudioAttractions
               .where((attraction) =>
                   attraction.secteur == 'Marvel Avengers Campus')
               .toList();
-          selectedFilters.remove('Marvel Avengers Campus');
+          break;
 
         case 'Production Courtyard':
           filteredStudioAttractions = filteredStudioAttractions
               .where(
                   (attraction) => attraction.secteur == 'Production Courtyard')
               .toList();
-          selectedFilters.remove('Production Courtyard');
+          break;
       }
+      print(selectedFilters);
     }
   }
 }
@@ -2057,51 +2079,49 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08),
-      child: Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.07),
-              child: const Text(
-                'Filtres :',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.07),
+            child: const Text(
+              'Filtres :',
+              style: TextStyle(
+                fontSize: 24.0,
+                color: Colors.white,
               ),
             ),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.004),
-            FilterButton(
-              title: 'Temps d\'attente',
-              filterKey: 'waitTime',
-              selectedFilters: selectedFilters,
-              onFiltersChanged: onFiltersChanged,
-            ),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.004),
-            FilterButton(
-              title: 'Favoris',
-              filterKey: 'favorites',
-              selectedFilters: selectedFilters,
-              onFiltersChanged: onFiltersChanged,
-            ),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.004),
-            FilterButton(
-              title: 'Disponibles',
-              filterKey: 'availability',
-              selectedFilters: selectedFilters,
-              onFiltersChanged: onFiltersChanged,
-            ),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.004),
-            FilterButton(
-              title: 'Non disponibles',
-              filterKey: 'non_availability',
-              selectedFilters: selectedFilters,
-              onFiltersChanged: onFiltersChanged,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.004),
+          FilterButton(
+            title: 'Temps d\'attente',
+            filterKey: 'waitTime',
+            selectedFilters: selectedFilters,
+            onFiltersChanged: onFiltersChanged,
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.004),
+          FilterButton(
+            title: 'Favoris',
+            filterKey: 'favorites',
+            selectedFilters: selectedFilters,
+            onFiltersChanged: onFiltersChanged,
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.004),
+          FilterButton(
+            title: 'Disponibles',
+            filterKey: 'availability',
+            selectedFilters: selectedFilters,
+            onFiltersChanged: onFiltersChanged,
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.004),
+          FilterButton(
+            title: 'Non disponibles',
+            filterKey: 'non_availability',
+            selectedFilters: selectedFilters,
+            onFiltersChanged: onFiltersChanged,
+          ),
+        ],
       ),
     );
   }
@@ -2112,16 +2132,16 @@ class SmallFilterWidget extends StatelessWidget {
   final Function(List<String>)? onFiltersChanged;
 
   const SmallFilterWidget({
-    Key? key,
+    super.key,
     this.selectedFilters,
     this.onFiltersChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08),
-      child: Container(
+      child: SizedBox(
         width: 400,
         child: Column(
           children: [

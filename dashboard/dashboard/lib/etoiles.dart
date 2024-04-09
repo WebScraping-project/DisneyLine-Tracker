@@ -37,7 +37,7 @@ class StarPainter extends CustomPainter {
 List<Star> generateStars() {
   final random = Random();
   List<Star> stars = [];
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 200; i++) {
     final x = random.nextDouble() * 2000;
     final y = random.nextDouble() *
         1000; // ajustez la taille de l'écran selon vos besoins
