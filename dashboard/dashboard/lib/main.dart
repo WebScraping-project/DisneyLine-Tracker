@@ -1325,8 +1325,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05),
+              padding: const EdgeInsets.only(top: 50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0), // Arrondir les bords
               ),
@@ -1334,8 +1333,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.asset(
                   'assets/Titre.png',
-                  width: 450, // Ajustez la largeur du logo
-                  height: 60, // Ajustez la hauteur du logo
+                  width: MediaQuery.of(context).size.width *
+                      0.8, // Ajustez la largeur du logo
+                  height: MediaQuery.of(context).size.width *
+                      0.8 /
+                      8.75, // Ajustez la hauteur du logo
                   fit: BoxFit.fill,
                 ),
               ),
@@ -1351,27 +1353,228 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             SizedBox(
-              // PROBLEME
-              height: 1000,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 500,
-                      width: MediaQuery.of(context).size.width,
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        // ignore: unnecessary_null_comparison
-                        child: disneylandAttractions == null
-                            ? const CircularProgressIndicator()
-                            : Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.04),
-                                child: Container(
-                                  padding: EdgeInsets.all(
-                                      MediaQuery.of(context).size.height *
-                                          0.01),
+              height: 1700,
+              child: Column(
+                // PROBLEME
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 540,
+                        width: MediaQuery.of(context).size.width,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          // ignore: unnecessary_null_comparison
+                          child: disneylandAttractions == null
+                              ? const CircularProgressIndicator()
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Text(
+                                              'Disneyland',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            PopupMenuButton<String>(
+                                              initialValue: selectedView,
+                                              onSelected: _onViewChanged,
+                                              itemBuilder:
+                                                  (BuildContext context) {
+                                                return [
+                                                  'Toutes les attractions',
+                                                  'Main Street U.S.A',
+                                                  'Frontierland',
+                                                  'Adventureland',
+                                                  'Fantasyland',
+                                                  'Discoveryland',
+                                                ].map((String view) {
+                                                  return PopupMenuItem<String>(
+                                                    value: view,
+                                                    child: Text(view),
+                                                  );
+                                                }).toList();
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.004),
+                                                child: const Icon(
+                                                  Icons.arrow_drop_down,
+                                                  color: Colors
+                                                      .white, // Définit la couleur de l'icône en blanc
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
+                                          child: SizedBox(
+                                            height: 420,
+                                            width: screenSize.width * 0.72,
+                                            child: ListView.builder(
+                                              itemCount:
+                                                  filteredDisneylandAttractions
+                                                      .length,
+                                              itemBuilder: (context, index) {
+                                                var attraction =
+                                                    filteredDisneylandAttractions[
+                                                        index];
+                                                return Container(
+                                                  margin: const EdgeInsets.only(
+                                                      bottom: 16),
+                                                  child: Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                    ),
+                                                    elevation: 5,
+                                                    color: Colors.white,
+                                                    child: ListTile(
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.008),
+                                                      leading: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                        child: Image.asset(
+                                                          attraction.photoUrl,
+                                                          width:
+                                                              screenSize.width *
+                                                                  0.10,
+                                                          height: 60,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        attraction.name,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      subtitle: Text.rich(
+                                                        TextSpan(
+                                                          text:
+                                                              'Temps d\'attente: ',
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          children: [
+                                                            TextSpan(
+                                                              text:
+                                                                  '${attraction.waitTime} minutes',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: getColorForWaitTime(
+                                                                    attraction
+                                                                        .waitTime),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      trailing: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Icon(
+                                                            attraction
+                                                                    .isAvailable
+                                                                ? Icons
+                                                                    .check_circle
+                                                                : Icons.cancel,
+                                                            color: attraction
+                                                                    .isAvailable
+                                                                ? Colors.green
+                                                                : Colors.red,
+                                                          ),
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.004,
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              attraction
+                                                                      .isFavorite
+                                                                  ? Icons.star
+                                                                  : Icons
+                                                                      .star_border,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                attraction
+                                                                        .isFavorite =
+                                                                    !attraction
+                                                                        .isFavorite;
+                                                                if (attraction
+                                                                    .isFavorite) {
+                                                                  favoriteAttractions
+                                                                      .add(
+                                                                          attraction);
+                                                                } else {
+                                                                  favoriteAttractions
+                                                                      .remove(
+                                                                          attraction);
+                                                                }
+                                                              });
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 520,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          // ignore: unnecessary_null_comparison
+                          child: studioAttractions == null
+                              ? const CircularProgressIndicator()
+                              : Container(
+                                  padding: const EdgeInsets.all(16),
                                   child: Column(
                                     children: [
                                       Row(
@@ -1379,11 +1582,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                             MainAxisAlignment.center,
                                         children: [
                                           const Text(
-                                            'Disneyland',
+                                            'Disney Studios',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 25.0,
                                               color: Colors.white,
+                                              fontSize: 25.0,
                                             ),
                                           ),
                                           PopupMenuButton<String>(
@@ -1393,11 +1596,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 (BuildContext context) {
                                               return [
                                                 'Toutes les attractions',
-                                                'Main Street U.S.A',
-                                                'Frontierland',
-                                                'Adventureland',
-                                                'Fantasyland',
-                                                'Discoveryland',
+                                                'Marvel Avengers Campus',
+                                                'Production Courtyard',
+                                                'Toon Studio',
                                               ].map((String view) {
                                                 return PopupMenuItem<String>(
                                                   value: view,
@@ -1405,6 +1606,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 );
                                               }).toList();
                                             },
+                                            offset: const Offset(200, 0),
                                             child: Padding(
                                               padding: EdgeInsets.only(
                                                   left: MediaQuery.of(context)
@@ -1420,418 +1622,56 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 400,
-                                        width: screenSize.width * 0.72,
-                                        child: ListView.builder(
-                                          itemCount:
-                                              filteredDisneylandAttractions
-                                                  .length,
-                                          itemBuilder: (context, index) {
-                                            var attraction =
-                                                filteredDisneylandAttractions[
-                                                    index];
-                                            return Container(
-                                              margin: EdgeInsets.only(
-                                                  bottom: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.016),
-                                              child: Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0),
-                                                ),
-                                                elevation: 5,
-                                                color: Colors.white,
-                                                child: ListTile(
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal:
-                                                              MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.008),
-                                                  leading: ClipRRect(
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 20),
+                                        child: SizedBox(
+                                          height: 420,
+                                          width: screenSize.width * 0.72,
+                                          child: ListView.builder(
+                                            itemCount: filteredStudioAttractions
+                                                .length,
+                                            itemBuilder: (context, index) {
+                                              var attraction =
+                                                  filteredStudioAttractions[
+                                                      index];
+                                              return Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 16),
+                                                child: Card(
+                                                  shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10.0),
-                                                    child: Image.asset(
-                                                      attraction.photoUrl,
-                                                      width: screenSize.width *
-                                                          0.10,
-                                                      height:
-                                                          screenSize.height *
-                                                              0.057,
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                                            20.0),
                                                   ),
-                                                  title: Text(
-                                                    attraction.name,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  subtitle: Text.rich(
-                                                    TextSpan(
-                                                      text:
-                                                          'Temps d\'attente: ',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      children: [
-                                                        TextSpan(
-                                                          text:
-                                                              '${attraction.waitTime} minutes',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: getColorForWaitTime(
-                                                                attraction
-                                                                    .waitTime),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  trailing: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Icon(
-                                                        attraction.isAvailable
-                                                            ? Icons.check_circle
-                                                            : Icons.cancel,
-                                                        color: attraction
-                                                                .isAvailable
-                                                            ? Colors.green
-                                                            : Colors.red,
+                                                  elevation: 5,
+                                                  color: Colors.white,
+                                                  child: ListTile(
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.0083),
+                                                    leading: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      child: Image.asset(
+                                                        attraction.photoUrl,
+                                                        width:
+                                                            screenSize.width *
+                                                                0.10,
+                                                        height: 57,
+                                                        fit: BoxFit.cover,
                                                       ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.004,
-                                                      ),
-                                                      IconButton(
-                                                        icon: Icon(
-                                                          attraction.isFavorite
-                                                              ? Icons.star
-                                                              : Icons
-                                                                  .star_border,
-                                                          color: Colors.black,
-                                                        ),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            attraction
-                                                                    .isFavorite =
-                                                                !attraction
-                                                                    .isFavorite;
-                                                            if (attraction
-                                                                .isFavorite) {
-                                                              favoriteAttractions
-                                                                  .add(
-                                                                      attraction);
-                                                            } else {
-                                                              favoriteAttractions
-                                                                  .remove(
-                                                                      attraction);
-                                                            }
-                                                          });
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 500,
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        // ignore: unnecessary_null_comparison
-                        child: studioAttractions == null
-                            ? const CircularProgressIndicator()
-                            : Container(
-                                padding: EdgeInsets.all(
-                                    MediaQuery.of(context).size.height * 0.016),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          'Disney Studios',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 25.0,
-                                          ),
-                                        ),
-                                        PopupMenuButton<String>(
-                                          initialValue: selectedView,
-                                          onSelected: _onViewChanged,
-                                          itemBuilder: (BuildContext context) {
-                                            return [
-                                              'Toutes les attractions',
-                                              'Marvel Avengers Campus',
-                                              'Production Courtyard',
-                                              'Toon Studio',
-                                            ].map((String view) {
-                                              return PopupMenuItem<String>(
-                                                value: view,
-                                                child: Text(view),
-                                              );
-                                            }).toList();
-                                          },
-                                          offset: const Offset(200, 0),
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.004),
-                                            child: const Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Colors
-                                                  .white, // Définit la couleur de l'icône en blanc
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.02,
-                                    ),
-                                    SizedBox(
-                                      height: 400,
-                                      width: screenSize.width * 0.72,
-                                      child: ListView.builder(
-                                        itemCount:
-                                            filteredStudioAttractions.length,
-                                        itemBuilder: (context, index) {
-                                          var attraction =
-                                              filteredStudioAttractions[index];
-                                          return Container(
-                                            margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.016),
-                                            child: Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20.0),
-                                              ),
-                                              elevation: 5,
-                                              color: Colors.white,
-                                              child: ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal:
-                                                            MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.0083),
-                                                leading: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  child: Image.asset(
-                                                    attraction.photoUrl,
-                                                    width:
-                                                        screenSize.width * 0.10,
-                                                    height: screenSize.height *
-                                                        0.057,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                title: Text(
-                                                  attraction.name,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                subtitle: Text.rich(
-                                                  TextSpan(
-                                                    text: 'Temps d\'attente: ',
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    children: [
-                                                      TextSpan(
-                                                        text:
-                                                            '${attraction.waitTime} minutes',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              getColorForWaitTime(
-                                                                  attraction
-                                                                      .waitTime),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                trailing: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Icon(
-                                                      attraction.isAvailable
-                                                          ? Icons.check_circle
-                                                          : Icons.cancel,
-                                                      color:
-                                                          attraction.isAvailable
-                                                              ? Colors.green
-                                                              : Colors.red,
                                                     ),
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.004,
+                                                    title: Text(
+                                                      attraction.name,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
-                                                    IconButton(
-                                                      icon: Icon(
-                                                        attraction.isFavorite
-                                                            ? Icons.star
-                                                            : Icons.star_border,
-                                                        color: Colors.black,
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          attraction
-                                                                  .isFavorite =
-                                                              !attraction
-                                                                  .isFavorite;
-                                                          if (attraction
-                                                              .isFavorite) {
-                                                            favoriteAttractions
-                                                                .add(
-                                                                    attraction);
-                                                          } else {
-                                                            favoriteAttractions
-                                                                .remove(
-                                                                    attraction);
-                                                          }
-                                                        });
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.04),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  width: screenSize.width * 0.9,
-                  child: SizedBox(
-                    height: screenSize.height * 0.6,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildAttractionsInfoContainer(),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Container(
-                          constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.464),
-                          child: SizedBox(
-                            width: 400,
-                            child: Expanded(
-                              child: Container(
-                                margin: EdgeInsets.all(
-                                    MediaQuery.of(context).size.height * 0.016),
-                                padding: EdgeInsets.all(
-                                    MediaQuery.of(context).size.height * 0.016),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color.fromARGB(255, 0, 0, 0)
-                                          .withOpacity(0.3),
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: const Offset(2, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Attractions Favorites',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontSize: 18.0,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: MediaQuery.of(context)
-                                                .size
-                                                .height *
-                                            0.01, // 1% de la hauteur de l'écran
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.208,
-                                      ),
-                                      favoriteAttractions.isEmpty
-                                          ? const Text(
-                                              'Aucune attraction favorite actuellement',
-                                              style: TextStyle(
-                                                fontStyle: FontStyle.italic,
-                                              ),
-                                            )
-                                          : Column(
-                                              children: [
-                                                for (var attraction
-                                                    in favoriteAttractions)
-                                                  ListTile(
-                                                    title:
-                                                        Text(attraction.name),
                                                     subtitle: Text.rich(
                                                       TextSpan(
                                                         text:
@@ -1856,29 +1696,183 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         ],
                                                       ),
                                                     ),
-                                                    trailing: Icon(
-                                                      attraction.isAvailable
-                                                          ? Icons.check_circle
-                                                          : Icons.cancel,
-                                                      color:
+                                                    trailing: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
                                                           attraction.isAvailable
+                                                              ? Icons
+                                                                  .check_circle
+                                                              : Icons.cancel,
+                                                          color: attraction
+                                                                  .isAvailable
                                                               ? Colors.green
                                                               : Colors.red,
+                                                        ),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.004,
+                                                        ),
+                                                        IconButton(
+                                                          icon: Icon(
+                                                            attraction
+                                                                    .isFavorite
+                                                                ? Icons.star
+                                                                : Icons
+                                                                    .star_border,
+                                                            color: Colors.black,
+                                                          ),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              attraction
+                                                                      .isFavorite =
+                                                                  !attraction
+                                                                      .isFavorite;
+                                                              if (attraction
+                                                                  .isFavorite) {
+                                                                favoriteAttractions
+                                                                    .add(
+                                                                        attraction);
+                                                              } else {
+                                                                favoriteAttractions
+                                                                    .remove(
+                                                                        attraction);
+                                                              }
+                                                            });
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                              ],
-                                            ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                     ],
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildAttractionsInfoContainer(),
+                          Container(
+                            constraints: const BoxConstraints(maxHeight: 460),
+                            child: SizedBox(
+                              width: 400,
+                              child: Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)
+                                                .withOpacity(0.3),
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: const Offset(2, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Attractions Favorites',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.208,
+                                        ),
+                                        favoriteAttractions.isEmpty
+                                            ? const Text(
+                                                'Aucune attraction favorite actuellement',
+                                                style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                              )
+                                            : Column(
+                                                children: [
+                                                  for (var attraction
+                                                      in favoriteAttractions)
+                                                    ListTile(
+                                                      title:
+                                                          Text(attraction.name),
+                                                      subtitle: Text.rich(
+                                                        TextSpan(
+                                                          text:
+                                                              'Temps d\'attente: ',
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          children: [
+                                                            TextSpan(
+                                                              text:
+                                                                  '${attraction.waitTime} minutes',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: getColorForWaitTime(
+                                                                    attraction
+                                                                        .waitTime),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      trailing: Icon(
+                                                        attraction.isAvailable
+                                                            ? Icons.check_circle
+                                                            : Icons.cancel,
+                                                        color: attraction
+                                                                .isAvailable
+                                                            ? Colors.green
+                                                            : Colors.red,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
           ],
@@ -1932,6 +1926,7 @@ class _MyHomePageState extends State<MyHomePage> {
       selectedView = view ?? 'Disneyland'; // Mise à jour de la vue sélectionnée
       if (view != null && !selectedFilters.contains(view)) {
         List<String> lands = [
+          'Toutes les attractions',
           'Frontierland',
           'Adventureland',
           'Fantasyland',
@@ -1940,6 +1935,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ];
 
         List<String> landsstudio = [
+          'Toutes les attractions',
           'Toon Studio',
           'Marvel Avengers Campus',
           'Production Courtyard',
@@ -2064,7 +2060,6 @@ class _MyHomePageState extends State<MyHomePage> {
               .toList();
           break;
       }
-      print(selectedFilters);
     }
   }
 }
@@ -2140,7 +2135,7 @@ class SmallFilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08),
+      padding: const EdgeInsets.only(top: 80),
       child: SizedBox(
         width: 400,
         child: Column(
@@ -2152,10 +2147,11 @@ class SmallFilterWidget extends StatelessWidget {
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.02),
                   child: const Text(
-                    'Filtres :',
+                    'Filtres : ',
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -2176,7 +2172,8 @@ class SmallFilterWidget extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 5, left: 70),
+              padding: EdgeInsets.only(
+                  top: 5, left: MediaQuery.of(context).size.width * 0.04),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

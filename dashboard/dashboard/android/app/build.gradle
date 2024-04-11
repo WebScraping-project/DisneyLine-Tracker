@@ -36,7 +36,11 @@ android {
         jvmTarget = '11'
     }
 
-    org.gradle.java.home = "C:\\Program Files\\Java\\jdk-11"
+        if (System.getenv("JAVA_HOME") != null) {
+        // Set the Java home path for Gradle if JAVA_HOME is defined
+        System.setProperty("org.gradle.java.home", System.getenv("JAVA_HOME"))
+    }
+
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
